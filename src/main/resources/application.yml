@@ -1,0 +1,27 @@
+#server:
+#  port: 80
+#  tomcat:
+#    uri-encoding: utf-8
+  
+
+spring:
+  banner:    charset: utf-8
+  profiles:
+    active:
+    - localhost
+  resources:
+    static-locations:
+    - classpath:/META-INF/resources/
+    - classpath:/resources/
+    - classpath:/static/
+    - classpath:/public/
+    - file:./datafile/
+  batch:    initialize-schema: always
+    job:      names: itemreadjobDemo
+      
+        thymeleaf:
+    servlet:
+      content-type: text/html
+    encoding: UTF-8
+    cache: false
+    mode: HTML5

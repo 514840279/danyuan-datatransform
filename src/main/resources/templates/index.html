@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html style="height: auto; min-height: 100%;">
+<!-- 模板导入head -->
+<head th:include="/template-context::head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini layout-top-nav" style="height: auto; min-height: 100%;">
+	<div class="wrapper" style="min-height: 926.8px;">
+		<!-- 头部工具栏具栏 -->
+		<header class="main-header">
+			<a href="index.html" class="logo"> <span class="logo-mini"><img src="/dist/img/favicon_32x32.ico" /></span> <span class="logo-lg"><b>初学者</b></span>
+			</a>
+			<nav class="navbar navbar-static-top">
+<!-- 				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> -->
+<!-- 				</a> -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+						<i class="fa fa-bars"></i>
+					</button>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="/">后台管理</a></li>
+						<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">233小游戏<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<!-- 							 	<li><a  href="/games.html">其他游戏</a></li> -->
+								<li><a href="/index2.html" target="_blank">微信小游戏</a></li>
+								<li><a href="/index1.html" target="_blank">热门游戏</a></li>
+								<!-- 				                <li><a href="/ceshi/index.html" target="_blank">微信朋友圈测试游戏</a></li> -->
+							</ul></li>
+						<li><a href="/#" title="开发中，敬请期待">我的任务</a></li>
+						<li><a href="/#" title="开发中，敬请期待">教程文挡</a></li>
+					</ul>
+				</div>
+
+			</nav>
+		</header>
+
+
+		<div class="content-wrapper" id="mainDiv">
+			<div id="tabContainer"></div>
+		</div>
+
+		<footer class="main-footer" style="text-align: center;">
+			<strong>IPC备案号: 辽ICP备17010736号 </strong>
+		</footer>
+
+		<!-- 引入工具栏 -->
+		<div th:replace="/template-context::control-sidebar"></div>
+		<div class="control-sidebar-bg"></div>
+
+	</div>
+
+	<!-- 引入script -->
+	<div th:include="/template-context::scriptBootcdn"></div>
+
+	<script th:inline="javascript">
+		console.log("欢迎用户{{"+username+"}}登录本系统！\n 	本系统为个人项目，已在网络上开源展示，\n 	最新消息请登录演示网站： http://danyuan.wang 进行详细查看，\n	如果有好多意见或建议请发邮箱到  514840279@qq.com");
+	</script>
+
+</body>
+
+</html>
