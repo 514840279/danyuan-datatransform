@@ -24,12 +24,16 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.xml.StaxEventItemReader;
+import org.springframework.batch.item.xml.StaxEventItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.validation.BindException;
 
 /**
@@ -45,28 +49,39 @@ public class MytestReder {
 
 	// 负责创建任务
 	@Autowired
-	private JobBuilderFactory					jobBuilderFactory;
+	private JobBuilderFactory						jobBuilderFactory;
 
 	// 负责创建step 任务由step决定
 	@Autowired
-	private StepBuilderFactory					stepBuilderFactory;
+	private StepBuilderFactory						stepBuilderFactory;
 	
 	@Autowired
-	private DataSource							dataSource;
+	private DataSource								dataSource;
 	
 	@Autowired
-	private MyItemWriterDemo					myItemWriterDemo;
+	private MyItemWriterDemo						myItemWriterDemo;
 	
 	@Autowired
-	private FlatFileWriter						flatFileItemWriter;
+	private FlatFileWriter							flatFileItemWriter;
 
 	@Autowired
 	@Qualifier("dbItemWriter")
-	private JdbcBatchItemWriter<XiaoShuo>		dbItemWriter;
+	private JdbcBatchItemWriter<XiaoShuo>			dbItemWriter;
 	
 	@Autowired
 	@Qualifier("myFlatFileItemWriter")
-	private FlatFileItemWriter<SysUserBaseInfo>	myFlatFileItemWriter;
+	private FlatFileItemWriter<SysUserBaseInfo>		myFlatFileItemWriter;
+
+	@Autowired
+	@Qualifier("xmlFileWriteDemo")
+	private XmlFileWriteDemo						xmlFileWriteDemo;
+	
+	@Autowired
+	@Qualifier("xlmFileWrite")
+	private StaxEventItemWriter<SysUserBaseInfo>	xlmFileWrite;
+	
+	@Autowired
+	private CompositeItemWriter<SysUserBaseInfo>	multifileItermWrite;
 	
 	// 创建job 数据库读取
 	@Bean
@@ -100,9 +115,12 @@ public class MytestReder {
 		        .reader(itemReaderDemo())
 				// 测试输出
 //		        .writer(myItemWriterDemo)
-		        // 自定义输出到文件
-		        .writer(myFlatFileItemWriter)
-
+				// 自定义输出到文件
+//		        .writer(myFlatFileItemWriter)
+				// 自定义输出到xml中
+//		        .writer(xlmFileWrite)
+		        // 输出到多个文件
+		        .writer(multifileItermWrite)
 		        //
 		        .build();
 	}
@@ -187,6 +205,7 @@ public class MytestReder {
 //		        .writer(flatFileItemWriter)
 		        // 自定义输出到数据库
 		        .writer(dbItemWriter)
+
 		        //
 		        .build();
 	}
@@ -231,6 +250,68 @@ public class MytestReder {
 		});
 		lineMapper.afterPropertiesSet();
 		reader.setLineMapper(lineMapper);
+		return reader;
+	}
+
+	// 创建job xml读取
+	@Bean
+	public Job xmlReadJobemo() {
+
+		return jobBuilderFactory
+		        // 名称是job的标识符，
+		        .get("xmlReadJobemo")
+		        // 新增incrementer(new RunIdIncrementer())的配置使每个job的运行id都唯一
+		        .incrementer(new RunIdIncrementer())
+		        // 添加step
+		        .start(xmlReadstepDemo())
+		        //
+		        .build();
+	}
+
+	/**
+	 * @方法名 xmlReadstepDemo
+	 * @功能 TODO(这里用一句话描述这个方法的作用)
+	 * @参数 @return
+	 * @返回 Step
+	 * @author Administrator
+	 * @throws
+	 */
+	@Bean
+	public Step xmlReadstepDemo() {
+		return stepBuilderFactory.get("xmlReadstepDemo")
+		        //
+		        .<Depent, Depent> chunk(2)
+		        // 从xml文件中读
+		        .reader(xmlFileReadDemo())
+		        // 输出到xml
+		        .writer(xmlFileWriteDemo)
+
+		        //
+		        .build();
+	}
+
+	/**
+	 * @方法名 xmlFileReadDemo
+	 * @功能 TODO(这里用一句话描述这个方法的作用)
+	 * @参数 @return
+	 * @返回 ItemReader<? extends Depent>
+	 * @author Administrator
+	 * @throws
+	 */
+	@Bean
+	@StepScope
+	public StaxEventItemReader<Depent> xmlFileReadDemo() {
+		StaxEventItemReader<Depent> reader = new StaxEventItemReader<>();
+		reader.setResource(new ClassPathResource("pom.xml"));
+		// 指点根标签
+		reader.setFragmentRootElementName("dependency");
+		// 转xml 为对象
+		XStreamMarshaller unMarshaller = new XStreamMarshaller();
+		Map<String, Class> map = new HashMap<>();
+		map.put("dependency", Depent.class);
+		unMarshaller.setAliases(map);
+		
+		reader.setUnmarshaller(unMarshaller);
 		return reader;
 	}
 
