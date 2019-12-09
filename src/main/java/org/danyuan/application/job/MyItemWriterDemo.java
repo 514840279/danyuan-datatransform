@@ -1,6 +1,7 @@
 package org.danyuan.application.job;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @版本 V1.0
  */
 @Component
-public class MyItemWriterDemo implements ItemWriter<SysUserBaseInfo> {
+public class MyItemWriterDemo implements ItemWriter<Map<String, Object>> {
 
 	/**
 	 * TODO(这里用一句话描述这个方法的作用)
@@ -27,9 +28,9 @@ public class MyItemWriterDemo implements ItemWriter<SysUserBaseInfo> {
 	 */
 	
 	@Override
-	public void write(List<? extends SysUserBaseInfo> items) throws Exception {
-		for (SysUserBaseInfo sysUserBaseInfo : items) {
-			System.out.println(sysUserBaseInfo);
+	public void write(List<? extends Map<String, Object>> items) throws Exception {
+		for (Map<String, Object> sysUserBaseInfo : items) {
+			System.out.println(sysUserBaseInfo.toString());
 		}
 		
 	}

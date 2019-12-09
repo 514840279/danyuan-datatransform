@@ -17,7 +17,7 @@ spring:
     - classpath:/public/
     - file:./datafile/
   batch:    initialize-schema: always
-    job:      names: itemReadJobemo
+    job:      names: jdbcItemReadJobDemo
   jpa:
     database: MYSQL
     #open-in-view: false
