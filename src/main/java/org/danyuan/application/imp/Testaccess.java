@@ -3,9 +3,7 @@
  */
 package org.danyuan.application.imp;
 
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.RowMapper;
 
 /**
  * @author wth
@@ -97,34 +94,30 @@ public class Testaccess {
 	@StepScope
 	public JdbcPagingItemReader<Map<String, Object>> jdbcitemReaderDemo() {
 		JdbcPagingItemReader<Map<String, Object>> reader = new JdbcPagingItemReader<>();
-		DataSource dataSource = DataSourceBuilder.create().driverClassName("net.ucanaccess.jdbc.UcanaccessDriver").url("jdbc:ucanaccess://" + "F:\\2000年企业数据库.mdb").build();
+		DataSource dataSource = DataSourceBuilder.create().driverClassName("net.ucanaccess.jdbc.UcanaccessDriver").url("jdbc:ucanaccess://" + "F:\\data\\企业名录\\全国企业名录大全.mdb").build();
 		// 设置数据源
 		reader.setDataSource(dataSource);
 		// 每次读取记录数
-		reader.setFetchSize(50);
+		reader.setFetchSize(10);
 		
 		// 结果映射对象
-		reader.setRowMapper(new RowMapper<Map<String, Object>>() {
-
-			@Override
-			public Map<String, Object> mapRow(ResultSet rs, int rownum) throws SQLException {
-				ResultSetMetaData metaData = rs.getMetaData();
-				int count = metaData.getColumnCount();
-				Map<String, Object> map = new HashMap<>();
-				for (int i = 1; i <= count; i++) {
-					String columnName = metaData.getColumnName(i);
-					map.put(columnName, rs.getObject(columnName));
-				}
-				return map;
+		reader.setRowMapper((rs, rownum) -> {
+			ResultSetMetaData metaData = rs.getMetaData();
+			int count = metaData.getColumnCount();
+			Map<String, Object> map = new HashMap<>();
+			for (int i = 1; i <= count; i++) {
+				String columnName = metaData.getColumnName(i);
+				map.put(columnName, rs.getObject(columnName));
 			}
+			return map;
 		});
 		// 指定查询语句
 		MySqlPagingQueryProvider pagingQueryProvider = new MySqlPagingQueryProvider();
 		pagingQueryProvider.setSelectClause("*");
-		pagingQueryProvider.setFromClause(" From `2000`");
+		pagingQueryProvider.setFromClause(" From `全国企业名录大全` ");
 		// 排序
 		Map<String, Order> sort = new HashMap<>();
-		sort.put("法人代码", Order.ASCENDING);
+		sort.put("id", Order.ASCENDING);
 		pagingQueryProvider.setSortKeys(sort);
 
 		//

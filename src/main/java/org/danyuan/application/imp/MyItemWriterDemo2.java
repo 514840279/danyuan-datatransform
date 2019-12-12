@@ -1,15 +1,14 @@
 package org.danyuan.application.imp;
 
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.sql.DataSource;
-
+import org.danyuan.application.common.utils.dbutils.OracleConnUtils;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
+
 	/**
 	 * TODO(这里用一句话描述这个方法的作用)
 	 *
@@ -36,27 +36,30 @@ public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
 	public void write(List<? extends Map<String, Object>> items) throws Exception {
 		
 //		JdbcBatchItemWriter<Map<String, Object>> writer = new JdbcBatchItemWriter<>();
-		DataSource dataSource = DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver").url("jdbc:mysql:///application?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false").username("root").password("514840279@qq.com").build();
+//		DataSource dataSource = DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver").url("jdbc:mysql:///application?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false").username("root").password("514840279@qq.com").build();
+
 //		writer.setDataSource(dataSource);
-		Statement statement = dataSource.getConnection().createStatement();
+		Connection conn = OracleConnUtils.getConnection();
+		Statement statement = conn.createStatement();
 		//
 		Iterator<? extends Map<String, Object>> map = items.iterator();
 		while (map.hasNext()) {
+
 			StringBuilder stringBuilder = new StringBuilder();
 			Map<String, Object> row = map.next();
 			Set<String> set = row.keySet();
 			Iterator<? extends String> columns = set.iterator();
-			stringBuilder.append("insert into qiy2000(`");
+			stringBuilder.append("insert into 全国企业名录大全qg(");
 			while (columns.hasNext()) {
 				stringBuilder.append(columns.next());
 				if (columns.hasNext()) {
-					stringBuilder.append("`,`");
+					stringBuilder.append(",");
 				}
 			}
-			stringBuilder.append("`) values('");
+			stringBuilder.append(") values('");
 			columns = set.iterator();
 			while (columns.hasNext()) {
-				stringBuilder.append(row.get(columns.next()));
+				stringBuilder.append(String.valueOf(row.get(columns.next())).toString().replace("'", "").replace("null", "").trim());
 				if (columns.hasNext()) {
 					stringBuilder.append("','");
 				}
@@ -65,10 +68,8 @@ public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
 			System.out.println(stringBuilder.toString());
 			statement.execute(stringBuilder.toString());
 		}
-//		writer.setSql(stringBuilder.toString());
 
-//		writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Map<String, Object>>());
-		
+		OracleConnUtils.close(conn);
 	}
 
 }

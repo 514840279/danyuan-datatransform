@@ -6,25 +6,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.springframework.stereotype.Component;
-
 /**
  * @author Administrator
  */
-@Component("oracleConnUtils")
 public class OracleConnUtils {
 	
 	// jdbc:oracle:thin
-	private static final String	URL			= "jdbc:mysql:///application?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull";
-	private static final String	USER		= "root";
-	private static final String	PASSWORD	= "514840279@qq.com";
+	private static final String	URL			= "jdbc:oracle:thin:@localhost:1521:ORCL";
+	private static final String	USER		= "wth";
+	private static final String	PASSWORD	= "tiger";
 	
 	// 1
 	static {
 		try {
 			// OracleDriver
-			// Class.forName("oracle.jdbc.driver.OracleDriver");
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("com.mysql.jdbc.Driver");
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
