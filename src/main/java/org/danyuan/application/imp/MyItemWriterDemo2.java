@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.danyuan.application.common.utils.dbutils.MysqlConnUtils;
 import org.danyuan.application.common.utils.dbutils.OracleConnUtils;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
-
+	
 	/**
 	 * TODO(这里用一句话描述这个方法的作用)
 	 *
@@ -31,25 +32,26 @@ public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
 	 * @参考 @see org.springframework.batch.item.ItemWriter#write(java.util.List)
 	 * @author Administrator
 	 */
-	
+
 	@Override
 	public void write(List<? extends Map<String, Object>> items) throws Exception {
-		
+
 //		JdbcBatchItemWriter<Map<String, Object>> writer = new JdbcBatchItemWriter<>();
 //		DataSource dataSource = DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver").url("jdbc:mysql:///application?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false").username("root").password("514840279@qq.com").build();
-
+	
 //		writer.setDataSource(dataSource);
 		Connection conn = OracleConnUtils.getConnection();
+//		Connection conn = MysqlConnUtils.getConnection();
 		Statement statement = conn.createStatement();
 		//
 		Iterator<? extends Map<String, Object>> map = items.iterator();
 		while (map.hasNext()) {
-
+			
 			StringBuilder stringBuilder = new StringBuilder();
 			Map<String, Object> row = map.next();
 			Set<String> set = row.keySet();
 			Iterator<? extends String> columns = set.iterator();
-			stringBuilder.append("insert into 全国企业名录大全qg(");
+			stringBuilder.append("insert into 年企业数据库(");
 			while (columns.hasNext()) {
 				stringBuilder.append(columns.next());
 				if (columns.hasNext()) {
@@ -59,7 +61,9 @@ public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
 			stringBuilder.append(") values('");
 			columns = set.iterator();
 			while (columns.hasNext()) {
-				stringBuilder.append(String.valueOf(row.get(columns.next())).toString().replace("'", "").replace("null", "").trim());
+				String data = String.valueOf(row.get(columns.next())).toString().replace("'", "");
+				data = data.replace("\\", "").replace("null", "").trim();
+				stringBuilder.append(data);
 				if (columns.hasNext()) {
 					stringBuilder.append("','");
 				}
@@ -68,8 +72,8 @@ public class MyItemWriterDemo2 implements ItemWriter<Map<String, Object>> {
 			System.out.println(stringBuilder.toString());
 			statement.execute(stringBuilder.toString());
 		}
-
+		
 		OracleConnUtils.close(conn);
 	}
-
+	
 }

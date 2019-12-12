@@ -17,7 +17,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;
-import org.springframework.batch.item.database.support.MySqlPagingQueryProvider;
+import org.springframework.batch.item.database.support.SqlServerPagingQueryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -67,7 +67,7 @@ public class Testaccess {
 	public Step jdbcitemReadstepDemo() {
 		return stepBuilderFactory.get("jdbcitemReadstepDemo")
 		        // 创建 tasklet 或者chunk（itemread，itemprocess，itemwrite）
-		        .<Map<String, Object>, Map<String, Object>> chunk(10)
+		        .<Map<String, Object>, Map<String, Object>> chunk(1000)
 		        // 读取对象
 		        .reader(jdbcitemReaderDemo())
 		        // 测试输出
@@ -94,11 +94,11 @@ public class Testaccess {
 	@StepScope
 	public JdbcPagingItemReader<Map<String, Object>> jdbcitemReaderDemo() {
 		JdbcPagingItemReader<Map<String, Object>> reader = new JdbcPagingItemReader<>();
-		DataSource dataSource = DataSourceBuilder.create().driverClassName("net.ucanaccess.jdbc.UcanaccessDriver").url("jdbc:ucanaccess://" + "F:\\data\\企业名录\\全国企业名录大全.mdb").build();
+		DataSource dataSource = DataSourceBuilder.create().driverClassName("net.ucanaccess.jdbc.UcanaccessDriver").url("jdbc:ucanaccess://" + "F:\\2000年企业数据库.mdb").build();
 		// 设置数据源
 		reader.setDataSource(dataSource);
 		// 每次读取记录数
-		reader.setFetchSize(10);
+		reader.setFetchSize(100);
 		
 		// 结果映射对象
 		reader.setRowMapper((rs, rownum) -> {
@@ -112,12 +112,15 @@ public class Testaccess {
 			return map;
 		});
 		// 指定查询语句
-		MySqlPagingQueryProvider pagingQueryProvider = new MySqlPagingQueryProvider();
+
+//		MySqlPagingQueryProvider pagingQueryProvider = new MySqlPagingQueryProvider();
+		SqlServerPagingQueryProvider pagingQueryProvider = new SqlServerPagingQueryProvider();
+//		OraclePagingQueryProvider pagingQueryProvider = new OraclePagingQueryProvider();
 		pagingQueryProvider.setSelectClause("*");
-		pagingQueryProvider.setFromClause(" From `全国企业名录大全` ");
+		pagingQueryProvider.setFromClause(" From `2000` ");
 		// 排序
 		Map<String, Order> sort = new HashMap<>();
-		sort.put("id", Order.ASCENDING);
+		sort.put("法人代码", Order.ASCENDING);
 		pagingQueryProvider.setSortKeys(sort);
 
 		//
