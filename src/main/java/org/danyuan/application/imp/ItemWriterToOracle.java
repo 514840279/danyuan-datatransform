@@ -22,17 +22,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
-	
-	public String	tableName	= "qy2008";
+
+	public String	tableName	= "qy法人单位1";
 	public long		size		= 0;
-	public String	idName		= "法人单位";
-	
+	public String	idName		= "id";
+
 	@Override
 	public void write(List<? extends Map<String, Object>> items) throws Exception {
-		
+
 //		JdbcBatchItemWriter<Map<String, Object>> writer = new JdbcBatchItemWriter<>();
 //		DataSource dataSource = DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver").url("jdbc:mysql:///application?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false").username("root").password("514840279@qq.com").build();
-
+	
 //		writer.setDataSource(dataSource);
 		Connection conn = OracleConnUtils.getConnection();
 //		Connection conn = MysqlConnUtils.getConnection();
@@ -40,7 +40,7 @@ public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
 		//
 		Iterator<? extends Map<String, Object>> map = items.iterator();
 		while (map.hasNext()) {
-
+			
 			StringBuilder stringBuilder = new StringBuilder();
 			Map<String, Object> row = map.next();
 			Set<String> set = row.keySet();
@@ -56,7 +56,7 @@ public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
 			columns = set.iterator();
 			while (columns.hasNext()) {
 				String data = String.valueOf(row.get(columns.next())).toString().replace("'", "");
-				data = data.replace("\\", "").replace("null", "").replace("NULL", "").replace("&", "").replace("#", "").replace("——", "-").trim();
+				data = data.replace("\\", "").replace("null", "").replace("NULL", "").replace("&", "").replace("#", "").replace("——", "-").replace("？", "").trim();
 				stringBuilder.append(data);
 				if (columns.hasNext()) {
 					stringBuilder.append("','");
@@ -95,7 +95,7 @@ public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
 							continue;
 						}
 						String data = String.valueOf(row.get(columnName)).toString().replace("'", "");
-						data = data.replace("\\", "").replace("null", "").replace("NULL", "").replace("&", "").replace("#", "").replace("——", "-").trim();
+						data = data.replace("\\", "").replace("null", "").replace("NULL", "").replace("&", "").replace("#", "").replace("——", "-").replace("？", "").trim();
 						stringBuilder.append(data);
 						if (columns.hasNext()) {
 							stringBuilder.append("','");
@@ -103,7 +103,7 @@ public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
 					}
 					stringBuilder.append("')");
 					statement.execute(stringBuilder.toString());
-
+					
 					// 更新语句
 					columns = set.iterator();
 					StringBuilder updateBuilder = null;
@@ -125,23 +125,23 @@ public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
 									if (ex.getErrorCode() == 1704) {
 										/*修改原字段名name为name_tmp*/
 										statement.execute("alter table " + tableName + " rename column " + columnName + " to name_tmp");
-
+										
 										/*增加一个和原字段名同名的字段name*/
 										statement.execute("alter table " + tableName + " add " + columnName + " clob");
-
+										
 										/*方式二:*/
 										statement.execute("update " + tableName + " set " + columnName + " =trim(name_tmp)");
-
+										
 										/*更新完，删除原字段name_tmp*/
 										statement.execute("alter table " + tableName + "  drop column name_tmp");
-
+										
 										statement.execute(updateBuilder.toString());
 									}
 								}
 							}
 						}
 					}
-					
+
 				} else
 				// 表创建
 				if (e.getErrorCode() == 942) {
@@ -161,12 +161,14 @@ public class ItemWriterToOracle implements ItemWriter<Map<String, Object>> {
 				} else {
 					e.printStackTrace();
 				}
-
+				
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
 		}
 		size += items.size();
 		System.out.println(size);
 		OracleConnUtils.close(conn);
 	}
-
+	
 }
