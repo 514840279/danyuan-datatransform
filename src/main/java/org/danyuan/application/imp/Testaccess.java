@@ -69,7 +69,7 @@ public class Testaccess {
 		        // 创建 tasklet 或者chunk（itemread，itemprocess，itemwrite）
 		        .<Map<String, Object>, Map<String, Object>> chunk(10000)
 		        // 读取对象
-		        .reader(accessitemReader())
+		        .reader(sqlserveritemReader())
 		        // 测试输出
 		        .writer(itemWriterToOracle)
 				// 自定义输出到文件
@@ -86,7 +86,7 @@ public class Testaccess {
 	@StepScope
 	public JdbcPagingItemReader<Map<String, Object>> sqlserveritemReader() {
 		JdbcPagingItemReader<Map<String, Object>> reader = new JdbcPagingItemReader<>();
-		DataSource dataSource = DataSourceBuilder.create().driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver").url("jdbc:sqlserver://127.0.0.1:1433;DatabaseName=51part2_hr_6").password(".").username("sa").build();
+		DataSource dataSource = DataSourceBuilder.create().driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver").url("jdbc:sqlserver://127.0.0.1:1433;DatabaseName=安徽SQL").password(".").username("sa").build();
 		// 设置数据源
 		reader.setDataSource(dataSource);
 		// 每次读取记录数
@@ -109,10 +109,10 @@ public class Testaccess {
 		SqlServerPagingQueryProvider pagingQueryProvider = new SqlServerPagingQueryProvider();
 //		OraclePagingQueryProvider pagingQueryProvider = new OraclePagingQueryProvider();
 		pagingQueryProvider.setSelectClause("*");
-		pagingQueryProvider.setFromClause(" From workexp ");
+		pagingQueryProvider.setFromClause(" From 法人单位 ");
 		// 排序
 		Map<String, Order> sort = new HashMap<>();
-		sort.put("userid", Order.ASCENDING);
+		sort.put("id", Order.ASCENDING);
 		pagingQueryProvider.setSortKeys(sort);
 		
 		//
@@ -125,7 +125,7 @@ public class Testaccess {
 	@StepScope
 	public JdbcPagingItemReader<Map<String, Object>> accessitemReader() {
 		JdbcPagingItemReader<Map<String, Object>> reader = new JdbcPagingItemReader<>();
-		DataSource dataSource = DataSourceBuilder.create().driverClassName("net.ucanaccess.jdbc.UcanaccessDriver").url("jdbc:ucanaccess://" + "F:\\data\\企业名录\\2008年中国工业企业数据库.mdb").build();
+		DataSource dataSource = DataSourceBuilder.create().driverClassName("net.ucanaccess.jdbc.UcanaccessDriver").url("jdbc:ucanaccess://" + "G:\\08年经济普查全样本\\辽宁省\\辽宁省.mdb").build();
 		// 设置数据源
 		reader.setDataSource(dataSource);
 		// 每次读取记录数
@@ -148,10 +148,10 @@ public class Testaccess {
 		SqlServerPagingQueryProvider pagingQueryProvider = new SqlServerPagingQueryProvider();
 //		OraclePagingQueryProvider pagingQueryProvider = new OraclePagingQueryProvider();
 		pagingQueryProvider.setSelectClause("*");
-		pagingQueryProvider.setFromClause(" From `qycw2008` ");
+		pagingQueryProvider.setFromClause(" From `辽宁省` ");
 		// 排序
 		Map<String, Order> sort = new HashMap<>();
-		sort.put("法人单位", Order.ASCENDING);
+		sort.put("ID", Order.ASCENDING);
 		pagingQueryProvider.setSortKeys(sort);
 		
 		//
