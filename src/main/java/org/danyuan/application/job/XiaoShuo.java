@@ -2,9 +2,7 @@ package org.danyuan.application.job;
 
 import java.util.UUID;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @文件名 XiaoShuo.java
@@ -14,8 +12,8 @@ import javax.persistence.Table;
  * @author Administrator
  * @版本 V1.0
  */
-@Entity
-@Table(name = "xiao_suo")
+//@EntiTY
+//@TABLE(NAME = "xiao_suo")
 public class XiaoShuo {
 	@Id
 	private String	id;
@@ -25,7 +23,7 @@ public class XiaoShuo {
 	private String	instroString;
 	private String	urlString;
 	private String	picString;
-	
+
 	/**
 	 * @方法名 getNameString
 	 * @功能 返回变量 nameString 的值
@@ -34,7 +32,7 @@ public class XiaoShuo {
 	public String getNameString() {
 		return nameString;
 	}
-	
+
 	/**
 	 * @方法名 setNameString
 	 * @功能 设置变量 nameString 的值
@@ -42,7 +40,7 @@ public class XiaoShuo {
 	public void setNameString(String nameString) {
 		this.nameString = nameString;
 	}
-	
+
 	/**
 	 * @方法名 getAutherString
 	 * @功能 返回变量 autherString 的值
@@ -51,7 +49,7 @@ public class XiaoShuo {
 	public String getAutherString() {
 		return autherString;
 	}
-	
+
 	/**
 	 * @方法名 setAutherString
 	 * @功能 设置变量 autherString 的值
@@ -59,7 +57,7 @@ public class XiaoShuo {
 	public void setAutherString(String autherString) {
 		this.autherString = autherString;
 	}
-	
+
 	/**
 	 * @方法名 getInstroString
 	 * @功能 返回变量 instroString 的值
@@ -68,7 +66,7 @@ public class XiaoShuo {
 	public String getInstroString() {
 		return instroString;
 	}
-	
+
 	/**
 	 * @方法名 setInstroString
 	 * @功能 设置变量 instroString 的值
@@ -76,7 +74,7 @@ public class XiaoShuo {
 	public void setInstroString(String instroString) {
 		this.instroString = instroString;
 	}
-	
+
 	/**
 	 * @方法名 getPicString
 	 * @功能 返回变量 picString 的值
@@ -85,7 +83,7 @@ public class XiaoShuo {
 	public String getPicString() {
 		return picString;
 	}
-	
+
 	/**
 	 * @方法名 setPicString
 	 * @功能 设置变量 picString 的值
@@ -93,7 +91,7 @@ public class XiaoShuo {
 	public void setPicString(String picString) {
 		this.picString = picString;
 	}
-
+	
 	/**
 	 * @方法名 getUrlString
 	 * @功能 返回变量 urlString 的值
@@ -102,7 +100,7 @@ public class XiaoShuo {
 	public String getUrlString() {
 		return urlString;
 	}
-
+	
 	/**
 	 * @方法名 setUrlString
 	 * @功能 设置变量 urlString 的值
@@ -110,7 +108,7 @@ public class XiaoShuo {
 	public void setUrlString(String urlString) {
 		this.urlString = urlString;
 	}
-	
+
 	/**
 	 * @方法名 getMsgString
 	 * @功能 返回变量 msgString 的值
@@ -119,7 +117,7 @@ public class XiaoShuo {
 	public String getMsgString() {
 		return msgString;
 	}
-	
+
 	/**
 	 * @方法名 setMsgString
 	 * @功能 设置变量 msgString 的值
@@ -127,7 +125,7 @@ public class XiaoShuo {
 	public void setMsgString(String msgString) {
 		this.msgString = msgString;
 	}
-
+	
 	/**
 	 * @方法名 getId
 	 * @功能 返回变量 id 的值
@@ -136,7 +134,7 @@ public class XiaoShuo {
 	public String getId() {
 		return id;
 	}
-
+	
 	/**
 	 * @方法名 setId
 	 * @功能 设置变量 id 的值
@@ -147,7 +145,7 @@ public class XiaoShuo {
 		}
 		this.id = id;
 	}
-
+	
 	/**
 	 * TODO(这里用一句话描述这个方法的作用)
 	 *
@@ -156,10 +154,10 @@ public class XiaoShuo {
 	 * @参考 @see java.lang.Object#toString()
 	 * @author Administrator
 	 */
-
+	
 	@Override
 	public String toString() {
 		return "XiaoShuo [nameString=" + nameString + ", autherString=" + autherString + ", msgString=" + msgString + ", instroString=" + instroString + ", urlString=" + urlString + ", picString=" + picString + "]";
 	}
-	
+
 }
