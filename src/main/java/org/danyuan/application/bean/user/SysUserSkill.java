@@ -12,17 +12,15 @@ import org.danyuan.application.common.utils.DateUtils;
  * @author Administrator
  *
  */
-public class SysUserBankCard {
-	// 用户银行卡号
-	private String TABLE_NAME = "SYS_USER_BANK_CARD";
+public class SysUserSkill {
+	// 用户专业技能
+	private String TABLE_NAME = "SYS_USER_SKILL";
+
 	private String uuid;
 	private String baseUuid;
 	private String 姓名;
-	private String 银行;
-	private String 银行卡号;
-	private String 银行名称;
-	private String 注册时间;
-	private String 账号;
+	private String 技能名;
+	private String 时长;
 	private String 入库时间;
 	private String 数据来源;
 	private Date insertDate;
@@ -52,44 +50,20 @@ public class SysUserBankCard {
 		this.姓名 = 姓名;
 	}
 
-	public String get银行() {
-		return 银行;
+	public String get技能名() {
+		return 技能名;
 	}
 
-	public void set银行(String 银行) {
-		this.银行 = 银行;
+	public void set技能名(String 技能名) {
+		this.技能名 = 技能名;
 	}
 
-	public String get银行卡号() {
-		return 银行卡号;
+	public String get时长() {
+		return 时长;
 	}
 
-	public void set银行卡号(String 银行卡号) {
-		this.银行卡号 = 银行卡号;
-	}
-
-	public String get银行名称() {
-		return 银行名称;
-	}
-
-	public void set银行名称(String 银行名称) {
-		this.银行名称 = 银行名称;
-	}
-
-	public String get注册时间() {
-		return 注册时间;
-	}
-
-	public void set注册时间(String 注册时间) {
-		this.注册时间 = 注册时间;
-	}
-
-	public String get账号() {
-		return 账号;
-	}
-
-	public void set账号(String 账号) {
-		this.账号 = 账号;
+	public void set时长(String 时长) {
+		this.时长 = 时长;
 	}
 
 	public String get入库时间() {
@@ -124,16 +98,16 @@ public class SysUserBankCard {
 		this.updateDate = updateDate;
 	}
 
-	public SysUserBankCard() {
+	public SysUserSkill() {
 		super();
 	}
 
-	public SysUserBankCard(String baseUuid) {
+	public SysUserSkill(String uuid) {
 		super();
-		this.baseUuid = baseUuid;
+		this.uuid = uuid;
 	}
 
-	public SysUserBankCard(String uuid, String baseUuid) {
+	public SysUserSkill(String uuid, String baseUuid) {
 		super();
 		this.uuid = uuid;
 		this.baseUuid = baseUuid;
@@ -141,7 +115,7 @@ public class SysUserBankCard {
 
 	@Override
 	public String toString() {
-		return "SysUserBankCard [uuid=" + uuid + ", baseUuid=" + baseUuid + ", 姓名=" + 姓名 + ", 银行=" + 银行 + ", 银行卡号=" + 银行卡号 + ", 银行名称=" + 银行名称 + ", 注册时间=" + 注册时间 + ", 账号=" + 账号 + ", 入库时间=" + 入库时间 + ", 数据来源=" + 数据来源 + "]";
+		return "SysUserSkill [uuid=" + uuid + ", baseUuid=" + baseUuid + ", 姓名=" + 姓名 + ", 技能名=" + 技能名 + ", 时长=" + 时长 + ", 入库时间=" + 入库时间 + ", 数据来源=" + 数据来源 + ", insertDate=" + insertDate + ", updateDate=" + updateDate + "]";
 	}
 
 	public String saveOrUpdateSql() {
@@ -164,20 +138,11 @@ public class SysUserBankCard {
 		if (this.姓名 != null) {
 			sb.append(",姓名='" + this.姓名 + "'");
 		}
-		if (this.银行 != null) {
-			sb.append(",银行='" + this.银行 + "'");
+		if (this.技能名 != null) {
+			sb.append(",技能名='" + this.技能名 + "'");
 		}
-		if (this.银行卡号 != null) {
-			sb.append(",银行卡号='" + this.银行卡号 + "'");
-		}
-		if (this.银行名称 != null) {
-			sb.append(",银行名称='" + this.银行名称 + "'");
-		}
-		if (this.注册时间 != null) {
-			sb.append(",注册时间='" + this.注册时间 + "'");
-		}
-		if (this.账号 != null) {
-			sb.append(",账号='" + this.账号 + "'");
+		if (this.时长 != null) {
+			sb.append(",时长='" + this.时长 + "'");
 		}
 		if (this.入库时间 != null) {
 			sb.append(",入库时间='" + this.入库时间 + "'");
@@ -199,20 +164,11 @@ public class SysUserBankCard {
 		if (this.姓名 != null) {
 			sb.append(",姓名");
 		}
-		if (this.银行 != null) {
-			sb.append(",银行");
+		if (this.技能名 != null) {
+			sb.append(",技能名");
 		}
-		if (this.银行卡号 != null) {
-			sb.append(",银行卡号");
-		}
-		if (this.银行名称 != null) {
-			sb.append(",银行名称");
-		}
-		if (this.注册时间 != null) {
-			sb.append(",注册时间");
-		}
-		if (this.账号 != null) {
-			sb.append(",账号");
+		if (this.时长 != null) {
+			sb.append(",时长");
 		}
 		if (this.入库时间 != null) {
 			sb.append(",入库时间");
@@ -227,20 +183,11 @@ public class SysUserBankCard {
 		if (this.姓名 != null) {
 			sb.append(",'" + this.姓名 + "'");
 		}
-		if (this.银行 != null) {
-			sb.append(",'" + this.银行 + "'");
+		if (this.技能名 != null) {
+			sb.append(",'" + this.技能名 + "'");
 		}
-		if (this.银行卡号 != null) {
-			sb.append(",'" + this.银行卡号 + "'");
-		}
-		if (this.银行名称 != null) {
-			sb.append(",'" + this.银行名称 + "'");
-		}
-		if (this.注册时间 != null) {
-			sb.append(",'" + this.注册时间 + "'");
-		}
-		if (this.账号 != null) {
-			sb.append(",'" + this.账号 + "'");
+		if (this.时长 != null) {
+			sb.append(",'" + this.时长 + "'");
 		}
 		if (this.入库时间 != null) {
 			sb.append(",'" + this.入库时间 + "'");
@@ -261,5 +208,4 @@ public class SysUserBankCard {
 	public String selectSql() {
 		return "SELECT * FROM " + this.TABLE_NAME + " WHERE base_uuid='" + this.baseUuid + "'";
 	}
-
 }

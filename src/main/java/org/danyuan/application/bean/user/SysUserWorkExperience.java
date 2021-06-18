@@ -12,17 +12,19 @@ import org.danyuan.application.common.utils.DateUtils;
  * @author Administrator
  *
  */
-public class SysUserBankCard {
-	// 用户银行卡号
-	private String TABLE_NAME = "SYS_USER_BANK_CARD";
+public class SysUserWorkExperience {
+	// 用户工作履历
+	private String TABLE_NAME = "SYS_USER_WORK_EXPERIENCE";
+
 	private String uuid;
 	private String baseUuid;
 	private String 姓名;
-	private String 银行;
-	private String 银行卡号;
-	private String 银行名称;
-	private String 注册时间;
-	private String 账号;
+	private String 单位名称;
+	private String 企业行业;
+	private String 职务类型;
+	private String 职位名称;
+	private String 工作内容;
+	private String 岗位;
 	private String 入库时间;
 	private String 数据来源;
 	private Date insertDate;
@@ -52,44 +54,52 @@ public class SysUserBankCard {
 		this.姓名 = 姓名;
 	}
 
-	public String get银行() {
-		return 银行;
+	public String get单位名称() {
+		return 单位名称;
 	}
 
-	public void set银行(String 银行) {
-		this.银行 = 银行;
+	public void set单位名称(String 单位名称) {
+		this.单位名称 = 单位名称;
 	}
 
-	public String get银行卡号() {
-		return 银行卡号;
+	public String get企业行业() {
+		return 企业行业;
 	}
 
-	public void set银行卡号(String 银行卡号) {
-		this.银行卡号 = 银行卡号;
+	public void set企业行业(String 企业行业) {
+		this.企业行业 = 企业行业;
 	}
 
-	public String get银行名称() {
-		return 银行名称;
+	public String get职务类型() {
+		return 职务类型;
 	}
 
-	public void set银行名称(String 银行名称) {
-		this.银行名称 = 银行名称;
+	public void set职务类型(String 职务类型) {
+		this.职务类型 = 职务类型;
 	}
 
-	public String get注册时间() {
-		return 注册时间;
+	public String get职位名称() {
+		return 职位名称;
 	}
 
-	public void set注册时间(String 注册时间) {
-		this.注册时间 = 注册时间;
+	public void set职位名称(String 职位名称) {
+		this.职位名称 = 职位名称;
 	}
 
-	public String get账号() {
-		return 账号;
+	public String get工作内容() {
+		return 工作内容;
 	}
 
-	public void set账号(String 账号) {
-		this.账号 = 账号;
+	public void set工作内容(String 工作内容) {
+		this.工作内容 = 工作内容;
+	}
+
+	public String get岗位() {
+		return 岗位;
+	}
+
+	public void set岗位(String 岗位) {
+		this.岗位 = 岗位;
 	}
 
 	public String get入库时间() {
@@ -124,24 +134,19 @@ public class SysUserBankCard {
 		this.updateDate = updateDate;
 	}
 
-	public SysUserBankCard() {
+	public SysUserWorkExperience() {
 		super();
 	}
 
-	public SysUserBankCard(String baseUuid) {
+	public SysUserWorkExperience(String uuid) {
 		super();
-		this.baseUuid = baseUuid;
+		this.uuid = uuid;
 	}
 
-	public SysUserBankCard(String uuid, String baseUuid) {
+	public SysUserWorkExperience(String uuid, String baseUuid) {
 		super();
 		this.uuid = uuid;
 		this.baseUuid = baseUuid;
-	}
-
-	@Override
-	public String toString() {
-		return "SysUserBankCard [uuid=" + uuid + ", baseUuid=" + baseUuid + ", 姓名=" + 姓名 + ", 银行=" + 银行 + ", 银行卡号=" + 银行卡号 + ", 银行名称=" + 银行名称 + ", 注册时间=" + 注册时间 + ", 账号=" + 账号 + ", 入库时间=" + 入库时间 + ", 数据来源=" + 数据来源 + "]";
 	}
 
 	public String saveOrUpdateSql() {
@@ -164,20 +169,23 @@ public class SysUserBankCard {
 		if (this.姓名 != null) {
 			sb.append(",姓名='" + this.姓名 + "'");
 		}
-		if (this.银行 != null) {
-			sb.append(",银行='" + this.银行 + "'");
+		if (this.单位名称 != null) {
+			sb.append(",单位名称='" + this.单位名称 + "'");
 		}
-		if (this.银行卡号 != null) {
-			sb.append(",银行卡号='" + this.银行卡号 + "'");
+		if (this.企业行业 != null) {
+			sb.append(",企业行业='" + this.企业行业 + "'");
 		}
-		if (this.银行名称 != null) {
-			sb.append(",银行名称='" + this.银行名称 + "'");
+		if (this.职务类型 != null) {
+			sb.append(",职务类型='" + this.职务类型 + "'");
 		}
-		if (this.注册时间 != null) {
-			sb.append(",注册时间='" + this.注册时间 + "'");
+		if (this.职位名称 != null) {
+			sb.append(",职位名称='" + this.职位名称 + "'");
 		}
-		if (this.账号 != null) {
-			sb.append(",账号='" + this.账号 + "'");
+		if (this.工作内容 != null) {
+			sb.append(",工作内容='" + this.工作内容 + "'");
+		}
+		if (this.岗位 != null) {
+			sb.append(",岗位='" + this.岗位 + "'");
 		}
 		if (this.入库时间 != null) {
 			sb.append(",入库时间='" + this.入库时间 + "'");
@@ -199,20 +207,23 @@ public class SysUserBankCard {
 		if (this.姓名 != null) {
 			sb.append(",姓名");
 		}
-		if (this.银行 != null) {
-			sb.append(",银行");
+		if (this.单位名称 != null) {
+			sb.append(",单位名称");
 		}
-		if (this.银行卡号 != null) {
-			sb.append(",银行卡号");
+		if (this.企业行业 != null) {
+			sb.append(",企业行业");
 		}
-		if (this.银行名称 != null) {
-			sb.append(",银行名称");
+		if (this.职务类型 != null) {
+			sb.append(",职务类型");
 		}
-		if (this.注册时间 != null) {
-			sb.append(",注册时间");
+		if (this.职位名称 != null) {
+			sb.append(",职位名称");
 		}
-		if (this.账号 != null) {
-			sb.append(",账号");
+		if (this.工作内容 != null) {
+			sb.append(",工作内容");
+		}
+		if (this.岗位 != null) {
+			sb.append(",岗位");
 		}
 		if (this.入库时间 != null) {
 			sb.append(",入库时间");
@@ -227,20 +238,23 @@ public class SysUserBankCard {
 		if (this.姓名 != null) {
 			sb.append(",'" + this.姓名 + "'");
 		}
-		if (this.银行 != null) {
-			sb.append(",'" + this.银行 + "'");
+		if (this.单位名称 != null) {
+			sb.append(",'" + this.单位名称 + "'");
 		}
-		if (this.银行卡号 != null) {
-			sb.append(",'" + this.银行卡号 + "'");
+		if (this.企业行业 != null) {
+			sb.append(",'" + this.企业行业 + "'");
 		}
-		if (this.银行名称 != null) {
-			sb.append(",'" + this.银行名称 + "'");
+		if (this.职务类型 != null) {
+			sb.append(",'" + this.职务类型 + "'");
 		}
-		if (this.注册时间 != null) {
-			sb.append(",'" + this.注册时间 + "'");
+		if (this.职位名称 != null) {
+			sb.append(",'" + this.职位名称 + "'");
 		}
-		if (this.账号 != null) {
-			sb.append(",'" + this.账号 + "'");
+		if (this.工作内容 != null) {
+			sb.append(",'" + this.工作内容 + "'");
+		}
+		if (this.岗位 != null) {
+			sb.append(",'" + this.岗位 + "'");
 		}
 		if (this.入库时间 != null) {
 			sb.append(",'" + this.入库时间 + "'");
@@ -261,5 +275,4 @@ public class SysUserBankCard {
 	public String selectSql() {
 		return "SELECT * FROM " + this.TABLE_NAME + " WHERE base_uuid='" + this.baseUuid + "'";
 	}
-
 }

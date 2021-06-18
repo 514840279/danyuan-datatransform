@@ -3,6 +3,7 @@
  */
 package org.danyuan.application.bean.user;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.danyuan.application.common.utils.DateUtils;
@@ -12,7 +13,8 @@ import org.danyuan.application.common.utils.DateUtils;
  *
  */
 public class SysUserBaseInfo {
-
+	// 用户基本信息
+	private String TABLE_NAME = "SYS_USER_BASE_INFO";
 	private String uuid;
 	private String 姓名;
 	private String sfzh18;
@@ -57,6 +59,8 @@ public class SysUserBaseInfo {
 
 	private String 入库时间;
 	private String 数据来源;
+	private Date insertDate;
+	private Date updateDate;
 
 	public String getUuid() {
 		return uuid;
@@ -402,6 +406,22 @@ public class SysUserBaseInfo {
 		this.数据来源 = 数据来源;
 	}
 
+	public Date getInsertDate() {
+		return insertDate;
+	}
+
+	public void setInsertDate(Date insertDate) {
+		this.insertDate = insertDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
 	@Override
 	public String toString() {
 		return "SysUserBaseInfo [uuid=" + uuid + ", 姓名=" + 姓名 + ", sfzh18=" + sfzh18 + ", 籍贯省=" + 籍贯省 + ", 籍贯市=" + 籍贯市 + ", 籍贯县=" + 籍贯县 + ", id_出生日期=" + id_出生日期 + ", id_性别=" + id_性别 + ", id_生肖=" + id_生肖 + ", id_星座=" + id_星座 + ", 籍贯编码=" + 籍贯编码 + ", 地址=" + 地址 + ", 电话=" + 电话 + ", qq号码=" + qq号码 + ", 电子邮箱=" + 电子邮箱 + ", 用户名=" + 用户名 + ", 学历=" + 学历 + ", 公示时间=" + 公示时间 + ", 区号=" + 区号 + ", 工作单位=" + 工作单位 + ", 手机号码=" + 手机号码 + ", 昵称=" + 昵称 + ", ip地址=" + ip地址 + ", msn=" + msn + ", 网址=" + 网址 + ", 民族=" + 民族 + ", 拼音=" + 拼音 + ", 籍贯邮编=" + 籍贯邮编 + ", position=" + position + ", 身高_cm=" + 身高_cm + ", 血型=" + 血型 + ", 现住地=" + 现住地 + ", 地区=" + 地区 + ", 曾用名=" + 曾用名 + ", 体重=" + 体重 + ", 婚姻=" + 婚姻 + ", 政治面貌=" + 政治面貌 + ", 特长=" + 特长 + ", 账号=" + 账号 + ", 传真=" + 传真 + ", 号码归属地=" + 号码归属地 + ", 入库时间=" + 入库时间 + ", 数据来源=" + 数据来源 + "]";
@@ -414,6 +434,14 @@ public class SysUserBaseInfo {
 	public SysUserBaseInfo(String uuid) {
 		super();
 		this.uuid = uuid;
+	}
+
+	public SysUserBaseInfo sfzh(String sfzh) {
+		// 1.整理号码统一为18位
+		// 2.查询库中是否有历史数据
+		// 3.没有的通过工具类整理出 性别，生日，生效，星座，地区，省，市，随机主键id
+
+		return this;
 	}
 
 	/** 更新插入语句判断 生成 */
@@ -431,7 +459,7 @@ public class SysUserBaseInfo {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE SYS_USER_BASE_INFO SET UPDATE_DATE='" + DateUtils.getDateTime() + "'");
+		sb.append("UPDATE " + this.TABLE_NAME + " SET UPDATE_DATE='" + DateUtils.getDateTime() + "'");
 		if (this.姓名 != null) {
 			sb.append(",姓名='" + this.姓名 + "'");
 		}
@@ -565,7 +593,7 @@ public class SysUserBaseInfo {
 
 	private String saveSql(String uuid) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO SYS_USER_BASE_INFO(UUID");
+		sb.append("INSERT INTO " + this.TABLE_NAME + "(UUID");
 		if (this.姓名 != null) {
 			sb.append(",姓名");
 		}
@@ -830,7 +858,7 @@ public class SysUserBaseInfo {
 
 	/** 安身份证号拼写查询语句 */
 	public String selectSql() {
-		return "SELECT * FROM SYS_USER_BASE_INFO WHERE sfzh18='" + this.sfzh18 + "'";
+		return "SELECT * FROM " + this.TABLE_NAME + " WHERE sfzh18='" + this.sfzh18 + "'";
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package org.danyuan.application.bean.user;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.danyuan.application.common.utils.DateUtils;
@@ -12,12 +13,16 @@ import org.danyuan.application.common.utils.DateUtils;
  *
  */
 public class SysUserCarInfo {
+	// 用户车辆车型信息
+	private String TABLE_NAME = "SYS_USER_CAR_INFO";
 	private String uuid;
 	private String baseUuid;
 	private String 姓名;
 	private String 准驾车型;
 	private String 入库时间;
 	private String 数据来源;
+	private Date insertDate;
+	private Date updateDate;
 
 	public String getUuid() {
 		return uuid;
@@ -67,6 +72,22 @@ public class SysUserCarInfo {
 		this.数据来源 = 数据来源;
 	}
 
+	public Date getInsertDate() {
+		return insertDate;
+	}
+
+	public void setInsertDate(Date insertDate) {
+		this.insertDate = insertDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
 	public SysUserCarInfo() {
 		super();
 	}
@@ -100,7 +121,7 @@ public class SysUserCarInfo {
 			return null;
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE SYS_USER_CAR_INFO SET UPDATE_DATE='" + DateUtils.getDateTime() + "'");
+		sb.append("UPDATE " + this.TABLE_NAME + " SET UPDATE_DATE='" + DateUtils.getDateTime() + "'");
 		if (this.baseUuid != null) {
 			sb.append(",BASE_UUID='" + this.baseUuid + "'");
 		}
@@ -123,7 +144,7 @@ public class SysUserCarInfo {
 
 	private String saveSql(String uuid) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO SYS_USER_CAR_INFO(UUID");
+		sb.append("INSERT INTO " + this.TABLE_NAME + "(UUID");
 		if (this.baseUuid != null) {
 			sb.append(",BASE_UUID");
 		}
@@ -166,7 +187,7 @@ public class SysUserCarInfo {
 
 	/** 安身份证号拼写查询语句 */
 	public String selectSql() {
-		return "SELECT * FROM SYS_USER_CAR_INFO WHERE base_uuid='" + this.baseUuid + "'";
+		return "SELECT * FROM " + this.TABLE_NAME + " WHERE base_uuid='" + this.baseUuid + "'";
 	}
 
 }
