@@ -8,7 +8,7 @@ spring:
   banner:    charset: utf-8
   profiles:
     active:
-    - localhost
+    - oracle
   resources:
     static-locations:
     - classpath:/META-INF/resources/
